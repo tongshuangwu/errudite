@@ -79,11 +79,10 @@ more straightforward.
 
 To get a taste of GUI for the machine comprehension task, you should first download a cache folder 
 for preprocessed [SQuAD](https://rajpurkar.github.io/SQuAD-explorer/) instances, which will help you
-skip the process of running your own preprocessing. Say we want to use the preprocessed SQuAD dataset,
-and we want to download the preprocessed data folder to `~/caches/`:
+skip the process of running your own preprocessing:
 
 ```
-python -m errudite.download --cache_folder_name squad-10570 --cache_path ~/caches/
+python -m errudite.download
 
 Commands:
     cache_folder_name
@@ -98,7 +97,7 @@ Then, we need to start the server:
 # the model relies on Allennlp, so make sure you install that first.
 pip install allennlp==0.8.4
 source venv/bin/activate
-python -m errudite.server --config_file config.yml
+python -m errudite.server
 
 Commands:
     config_file
@@ -108,7 +107,7 @@ The config file looks like the following (or in [config.yml](config.yml)):
 
 ```yml
 task: qa # the task, should be "qa" and "vqa".
-cache_path:  ~/caches/squad-10570 # the cached folder: {cache_path}/{cache_folder_name}/
+cache_path: {cache_path}/{cache_folder_name}/ # the cached folder.
 model_metas: # a model.
 - name: bidaf
   model_class: bidaf # an implemented model class

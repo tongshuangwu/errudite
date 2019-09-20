@@ -461,7 +461,6 @@ class BuildBlockDetectorQA(BuildBlockDetector):
             if prediction and prediction.get_perform('sent') == 0:
                 overlap_p = Attribute('', '', overlap_cmd_p).test_one_instance(
                     self.instance, Attribute.store_hash(), Group.store_hash())
-                print(overlap_p)
                 op = '==' if overlap_p == 0 else '>'
                 self.set_suggest(f'{self.get_cmd(overlap_cmd_p)} {op} 0', 'filter')
         # if no specific overlaps

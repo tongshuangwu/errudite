@@ -137,7 +137,6 @@ def linguistic(
                     span = span.root
                 else:
                     return None
-            print(type(span))
             if type(span) == Token:
                 if get_token_feature(span, 'ent'):
                     return get_token_feature(span, 'ent')

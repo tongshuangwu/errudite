@@ -110,36 +110,41 @@ class BuildBlockWrapper(object):
         try:
             id_list = defaultdict(None)
             for instance_group in instance_groups:
-                instances = list(instance_group.values())
-                if not instances:
-                    continue
-                default_key, keys = InstanceKey(qid=instances[0].qid, vid=0), None
-                if isinstance(self.operator, OpNode):
-                    output = self.operator.get_value(
-                        attr_hash=attr_hash,
-                        group_hash=group_hash,
-                        instance_group=instance_group)
-                    value = output.value
-                    keys = list(set(output.key))
-                elif callable(self.operator):
-                    output = self.operator(
-                        attr_hash=attr_hash,
-                        group_hash=group_hash,
-                        instance_group=instance_group)
-                    value = output.value
-                    keys = list(set(output.key))
-                elif type(self.operator) == bool:
-                    if self.operator:
-                        keys = [ default_key ]
-                    value = self.operator
-                else:
-                    value = self.operator
-                
-                if (self.cmd_type == 'attr' and value is not None) or value == True:
-                    if keys and len(keys) == 1:
-                        id_list[keys[0]] = value
+                try:
+                    instances = list(instance_group.values())
+                    if not instances:
+                        continue
+                    default_key, keys = InstanceKey(qid=instances[0].qid, vid=0), None
+                    if isinstance(self.operator, OpNode):
+                        output = self.operator.get_value(
+                            attr_hash=attr_hash,
+                            group_hash=group_hash,
+                            instance_group=instance_group)
+                        value = output.value
+                        keys = list(set(output.key))
+                    elif callable(self.operator):
+                        output = self.operator(
+                            attr_hash=attr_hash,
+                            group_hash=group_hash,
+                            instance_group=instance_group)
+                        value = output.value
+                        keys = list(set(output.key))
+                    elif type(self.operator) == bool:
+                        if self.operator:
+                            keys = [ default_key ]
+                        value = self.operator
                     else:
-                        id_list[default_key] = value
+                        value = self.operator
+                    
+                    if (self.cmd_type == 'attr' and value is not None) or value == True:
+                        if keys and len(keys) == 1:
+                            id_list[keys[0]] = value
+                        else:
+                            id_list[default_key] = value
+                except Exception as e:
+                    logger.error(e)
+                    continue
+
             output_ = id_list
             return output_
         except DSLValueError as e:

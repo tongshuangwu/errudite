@@ -1,10 +1,10 @@
 task: qa # the task, should be "qa" and "vqa".
-cache_path: ~/datasets/caches/dataset_debug/mrqa-all/ # the cached folder.
+cache_path: ~/datasets/caches/dataset_debug/mrqa-1200/ # the cached folder.
 model_metas: # a model.
 - name: mrqa_path
   model_class: mrqa # an implemented model class
   # an online path to an Allennlp model
-  model_online_path: https://s3.us-east-2.amazonaws.com/mrqa/models/BERT/_MIX_6.tar.gz
+  model_online_path: #https://s3.us-east-2.amazonaws.com/mrqa/models/BERT/_MIX_6.tar.gz
   description: Pretrained BERT baseline model from MRQA website.
 attr_file_name: save_attr.json # It set, to load previously saved analysis.
 group_file_name: save_group.json
